@@ -20,6 +20,18 @@
     background-color: var(--primary-hover);
 }
 
+.btn--danger {
+    width: auto;
+    background-color: var(--error-color);
+    color: white;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+}
+
+.btn--danger:hover {
+    background-color: #dc2626;
+}
+
 .btn:active {
     transform: scale(0.98);
 }
@@ -39,6 +51,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 12px;
+}
+
+.lista-alumnos span {
+    overflow-wrap: anywhere;
 }
 
 .mensaje-error {
