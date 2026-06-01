@@ -6,8 +6,8 @@ const formAlumno = document.getElementById('form-alumno');
 const mensajeError = document.getElementById('mensaje-error');
 const mensajeForm = document.getElementById('mensaje-form');
 
-// Muestra un mensaje en pantalla (accesible y no sobrescribe otras clases)
-function mostrarMensaje(elemento, texto, esError = false) {
+// Muestra un mensaje en pantalla sin sobrescribir otras clases.
+function mostrarMensaje(elemento, texto, esError = false, duracion = 3000) {
     elemento.textContent = texto;
     elemento.classList.remove('oculto');
 
@@ -20,8 +20,10 @@ function mostrarMensaje(elemento, texto, esError = false) {
         elemento.classList.add(esError ? 'mensaje-error' : 'mensaje-exito');
     }
 
-    // Limpiar timeout anterior si existe
+    // Limpiar timeout anterior si existe.
     if (elemento._timeout) clearTimeout(elemento._timeout);
+    if (!duracion) return;
+
     elemento._timeout = setTimeout(() => {
         elemento.textContent = '';
         elemento.classList.add('oculto');
@@ -48,9 +50,13 @@ function renderAlumnos(alumnos) {
     listaAlumnos.innerHTML = '';
 
     if (!Array.isArray(alumnos) || alumnos.length === 0) {
-        mostrarMensaje(mensajeError, 'No hay alumnos registrados', false);
+        mostrarMensaje(mensajeError, 'No hay alumnos registrados', false, 0);
         return;
     }
+
+    mensajeError.textContent = '';
+    mensajeError.classList.add('oculto');
+    mensajeError.classList.remove('mensaje-error', 'mensaje-exito');
 
     alumnos.forEach(alumno => {
         const li = document.createElement('li');
@@ -94,11 +100,12 @@ async function eliminarAlumno(legajo) {
 formAlumno.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const legajoVal = parseInt(document.getElementById('legajo').value, 10);
+    const legajoInput = document.getElementById('legajo').value.trim();
+    const legajoVal = Number(legajoInput);
     const nombreVal = document.getElementById('nombre').value.trim();
     const apellidoVal = document.getElementById('apellido').value.trim();
 
-    if (!Number.isInteger(legajoVal) || legajoVal <= 0) {
+    if (!/^\d+$/.test(legajoInput) || !Number.isInteger(legajoVal) || legajoVal <= 0) {
         mostrarMensaje(mensajeForm, 'Legajo inválido', true);
         return;
     }
