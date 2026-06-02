@@ -100,13 +100,12 @@ async function eliminarAlumno(legajo) {
 formAlumno.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const legajoInput = document.getElementById('legajo').value.trim();
-    const legajoVal = Number(legajoInput);
+    const emailVal = document.getElementById('email').value.trim();
     const nombreVal = document.getElementById('nombre').value.trim();
     const apellidoVal = document.getElementById('apellido').value.trim();
 
-    if (!/^\d+$/.test(legajoInput) || !Number.isInteger(legajoVal) || legajoVal <= 0) {
-        mostrarMensaje(mensajeForm, 'Legajo inválido', true);
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
+        mostrarMensaje(mensajeForm, 'Email inválido', true);
         return;
     }
     if (!nombreVal || !apellidoVal) {
@@ -114,7 +113,7 @@ formAlumno.addEventListener('submit', async (e) => {
         return;
     }
 
-    const nuevoAlumno = { legajo: legajoVal, nombre: nombreVal, apellido: apellidoVal };
+    const nuevoAlumno = { email: emailVal, nombre: nombreVal, apellido: apellidoVal };
 
     try {
         const respuesta = await fetch(`${API_URL}/alumnos`, {
