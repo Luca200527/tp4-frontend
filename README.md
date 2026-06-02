@@ -5,7 +5,7 @@ Aplicación web simple para consumir una API REST de alumnos. Permite listar, ag
 ## Funcionalidades
 
 - Cargar la lista de alumnos desde la API.
-- Agregar un alumno con legajo, nombre y apellido.
+- Agregar un alumno con email, nombre y apellido.
 - Validar que el legajo sea un número entero positivo.
 - Eliminar alumnos con confirmación previa.
 - Mostrar mensajes de éxito, error y lista vacía.
